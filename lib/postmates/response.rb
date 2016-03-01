@@ -8,7 +8,7 @@ module Postmates
       include Postmates::Utils
 
       def build(body)
-        kind = body['object'] || body['kind']
+        kind = body.is_a?(Array) ? 'zones' : body['object'] || body['kind']
         case kind
         when 'list'
           body['data'].map { |del| Delivery.new(del) }.tap do |list|
@@ -20,6 +20,8 @@ module Postmates
           Delivery.new(body)
         when 'delivery_quote'
           Quote.new(body)
+        when 'zones'
+          body
         end
       end
     end

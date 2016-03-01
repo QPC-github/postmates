@@ -77,5 +77,13 @@ module Postmates
     def return(delivery_id)
       post("customers/#{customer_id}/deliveries/#{delivery_id}/return")
     end
+
+    # GET /v1/customers/:customer_id/deliveries/:delivery_id
+    #
+    # Returns the parsed GeoJSON object or the raw Faraday response
+    # if raw_response = true
+    def delivery_zones
+      get("delivery_zones")
+    end
   end
 end
