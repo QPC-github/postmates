@@ -112,5 +112,21 @@ describe Postmates::Client do
         expect(client.return(delivery_id)).to be_a Postmates::Delivery
       end
     end
+
+    describe '#delivery_zones' do
+      let(:path) { "delivery_zones" }
+      before { stub_get path, returns: 'delivery_zones.json' }
+
+      it 'returns the delivery zones' do
+        zones = client.delivery_zones
+        expect(zones.count).to eq 45
+        zone = zones.first
+        expect(zone['properties']).to eq({'zone_name' => 'Atlanta', 'market_name' => 'Atlanta'})
+      end
+
+      it 'returns the delivery zone JSON as an Array' do
+        expect(client.delivery_zones).to be_a Array
+      end
+    end
   end
 end

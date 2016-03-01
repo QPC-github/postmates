@@ -6,8 +6,8 @@ module FaradayMiddleware
   class RaiseHTTPException < Faraday::Middleware
     def call(env)
       @app.call(env).on_complete do |response|
-        response_hash = JSON.parse(response.body)
-        msg = "#{response[:status]} #{response_hash['message']}"
+        parsed_response = JSON.parse(response.body)
+        msg = parsed_response.is_a?(Array) ? response[:status] : "#{response[:status]} #{parsed_response['message']}"
 
         case response[:status]
         when 400 ; raise Postmates::BadRequest,          msg
