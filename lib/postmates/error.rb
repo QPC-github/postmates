@@ -1,5 +1,12 @@
 module Postmates
-  class Error       < StandardError; end # custom Postmates error class
+  class Error < RuntimeError
+    attr_accessor :response
+
+    def initialize(response)
+      @response = response
+    end
+  end # custom Postmates error class
+
   class BadRequest          < Error; end # 400
   class Unauthorized        < Error; end # 401
   class Forbidden           < Error; end # 403

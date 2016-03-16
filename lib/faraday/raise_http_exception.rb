@@ -10,12 +10,12 @@ module FaradayMiddleware
         msg = parsed_response.is_a?(Array) ? response[:status] : "#{response[:status]} #{parsed_response['message']}"
 
         case response[:status]
-        when 400 ; raise Postmates::BadRequest,          msg
-        when 401 ; raise Postmates::Unauthorized,        msg
-        when 403 ; raise Postmates::Forbidden,           msg
-        when 404 ; raise Postmates::NotFound,            msg
-        when 500 ; raise Postmates::InternalServerError, msg
-        when 503 ; raise Postmates::ServiceUnavailable,  msg
+        when 400 ; raise Postmates::BadRequest.new(response), msg
+        when 401 ; raise Postmates::Unauthorized.new(response), msg
+        when 403 ; raise Postmates::Forbidden.new(response), msg
+        when 404 ; raise Postmates::NotFound.new(response), msg
+        when 500 ; raise Postmates::InternalServerError.new(response), msg
+        when 503 ; raise Postmates::ServiceUnavailable.new(response), msg
         end
       end
     end
